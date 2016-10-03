@@ -1,6 +1,6 @@
 package usuarios;
 
-abstract class Persona {
+public abstract class Persona {
 	
 	private long cedula;
 	private String nombre;

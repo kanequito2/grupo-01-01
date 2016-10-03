@@ -2,29 +2,30 @@ package usuarios;
 
 import java.util.ArrayList;
 import inmuebles.*;
+//import contratos.*;
 
-public class Cliente extends Persona{
+public abstract class Cliente extends Persona{
 	
 	public Cliente (long cedula, String nombre){
 		super(cedula,nombre);
-		clientesRegistrados.add(this);
+		// clientesRegistrados.add(this); //EseArrayList atenta contra la POO :(   
 	}
+//  El uso de los tres siguientes atributos no se especifica en la guia		
+//	private String telefono = null;
+//	private String direccionDeResidencia = null;
+//	private String celular = null;
 	
-	private static ArrayList <Cliente> clientesRegistrados = new ArrayList <Cliente>();
+	private ArrayList <Inmueble> inmuebles = new ArrayList <Inmueble>();
+//  private ArrayList <CompraVenta> compraVenta = new ArrayList <CompraVenta>();
+//  private ArrayList <Arrendamiento> arrendamientos = new ArrayList <Arrendamientos>();
 	
-	private String telefono = null;
-	private String direccionDeResidencia = null;
-	private String celular = null;
-	private ArrayList <Inmueble> inmueblesPoseidos = new ArrayList <Inmueble>();
+	/*	private static ArrayList <Cliente> clientesRegistrados = new ArrayList <Cliente>(); 
+	 * Ese Array atentaba contra los principios de la POO, inventarse otra manera de consultar informacion de los clientes.
+	 * Alternativa: Si sólo la clase cliente utiliza este Array en sus metodos, ¿seguiría atentando contra la POO?
+	 */
 	
-	boolean rol;
-	double presupuesto;
-	private String lugarDeInteres;
-	private int estratoDeInteres;
-	/*Referencias*/ private String rangoDeAreaDeLaCasa;
-	/*Referencias*/ private boolean debenTenerTerraza;
-	
-	public static boolean yaHaSidoCliente (long cedula){
+	/* 
+	 * public static boolean yaHaSidoCliente (long cedula){
 		int i;
 		for (i=0; i<clientesRegistrados.size(); i++){
 			if ( clientesRegistrados.get(i).getCedula() == cedula ){
@@ -33,37 +34,21 @@ public class Cliente extends Persona{
 		}
 		return false;
 	}
-	
-	public String getInmueblesPorLosQueMePaganArriendo(){
-		String r = null;
-		for (int i=0; i<inmueblesPoseidos.size(); i++){
-			if (inmueblesPoseidos.get(i).estaArrendado()){
-				r = r +"Codigo: "+inmueblesPoseidos.get(i).getCodigo()+", Direccion: "+inmueblesPoseidos.get(i).getDireccion()+", Valor de arriendo: "+inmueblesPoseidos.get(i).getValorArriendo()+", Es: "+inmueblesPoseidos.get(i).getEsCasaOEsApartamento()+", Fecha de Incio de Contrato: "+inmueblesPoseidos.get(i).getFechaInicioContrato();
-			}
-		}
-		if (r==null){return "No hay inmuebles Arrendados";}else{return r;}
+	*/
+	public ArrayList<Inmueble> getInmuebles() {
+		return inmuebles;
 	}
 	
-	public String getMisInmueblesDisponiblesParaArrendar(){
-		String r = null;
-		for (int i=0; i<inmueblesPoseidos.size(); i++){
-			if ( inmueblesPoseidos.get(i).estaArrendado() == false ){
-				r = r +"Codigo: "+inmueblesPoseidos.get(i).getCodigo()+", Direccion: "+inmueblesPoseidos.get(i).getDireccion()+", Es: "+inmueblesPoseidos.get(i).getEsCasaOEsApartamento()+", Valor de arriendo: "+inmueblesPoseidos.get(i).getValorArriendo()+", Fecha de Incio de COntrato: "+inmueblesPoseidos.get(i).getFechaInicioContrato();
-			}
-		} 
-		if (r==null){return "No hay inmuebles disponibles para arrendar";}else{return r;}
+	public void addInmueble(Inmueble e){
+		inmuebles.add(e);
+	}
+	/*
+	public ArrayList <CompraVenta> getCompraVenta(){
+		return this.compraVenta;
 	}
 	
-	public void addPropiedad(Inmueble e){
-		inmueblesPoseidos.add(e);
+	public ArrayList <CompraVenta> getArrendamientos(){
+		return this.arrendamientos;
 	}
-	
-	public void setRol(boolean rol){
-		this.rol = rol;
-	}
-
-	public ArrayList<Inmueble> getInmueblesPoseidos() {
-		return inmueblesPoseidos;
-	}
-	
+	*/
 }

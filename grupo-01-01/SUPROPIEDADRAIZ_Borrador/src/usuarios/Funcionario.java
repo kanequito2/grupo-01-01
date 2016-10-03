@@ -70,24 +70,27 @@ public class Funcionario extends Persona{
 			return r+ho;
 		}
 	}
-
+/*  Arreglar esta vuelta, ¿debe la clase cliente ser Abstracta o no?
 	public Cliente registrarCliente(long cedula, String nombre){
 		Cliente cliente = new Cliente(cedula,nombre);
 		clientes.add(cliente);
 		return cliente;
 	}
 
+
+   Crear metodo para estructura de clase en donde rol son clases y no un atirbuto
 	public void asignarRolAlCliente(Cliente cliente, boolean rol){
-		cliente.setRol(rol);
+		
 	}
-
-	public void registrarInmueble(Cliente propietario){
-		Inmueble inmueble = new Inmueble();
-		propietario.addPropiedad(inmueble);
+*/
+	public void registrarCasa(Cliente propietario, long codigo, float area, Unidad unidad, short pisos){
+		Casa inmueble = new Casa(codigo, area, unidad, pisos);
+		propietario.addInmueble(inmueble);
 	}
-
-	public void asignarRolAlInmueble(Inmueble inmueble, boolean rol){
-		inmueble.setRol(rol);
+	
+	public void registrarApartamento(Cliente propietario, long codigo, float area, Unidad unidad, Torre torre){
+		Apartamento inmueble = new Apartamento(codigo, area, unidad, torre);
+		propietario.addInmueble(inmueble);
 	}
 	
 	public void registrarCompraVenta(){
@@ -98,19 +101,27 @@ public class Funcionario extends Persona{
 		//Este metodo sera definido cuando se tengan las clases contratos
 	}
 	
-	public String buscarCasas(double precioMaximo, String lugar, int estrato,/*Preferencias*/int cuartosMinimos, int banosMinimos, double areaMinima, boolean necesitaGaraje){
+	public String buscarCasas(double precioMaximo, String lugar, short estrato,/*Preferencias*/int cuartosMinimos, int banosMinimos, double areaMinima, boolean necesitaGaraje){
 		String r = null;
 		for ( int i=0; i<funcionariosExistentes.size(); i++){
 			for ( int j=0; j<funcionariosExistentes.get(i).clientes.size(); j++ ){
-				for ( int k=0; k<funcionariosExistentes.get(i).clientes.get(j).getInmueblesPoseidos().size(); k++){
-					Inmueble t  = funcionariosExistentes.get(i).clientes.get(j).getInmueblesPoseidos().get(k);
+				for ( int k=0; k<funcionariosExistentes.get(i).clientes.get(j).getInmuebles().size(); k++){
 					/*t es Inmueble del cual estoy consultando las carateristicas*/
-					if ( t.getEsCasaOEsApartamento()=="Casa" && t.getPrecioDeVenta()<=precioMaximo && t.getDireccion()==lugar && t.getEstrato()==estrato && t.getNumeroDeCuartos()>=cuartosMinimos && t.getNumeroDeBanos()>=banosMinimos){
-						if (necesitaGaraje && t.isGaraje()){
-							r = r +"Codigo: "+ t.getCodigo() +", Direccion: "+ t.getDireccion()+", Nombre Unidad: "+ t.getNombreUnidad()+ "\n";
+					Inmueble t  = funcionariosExistentes.get(i).clientes.get(j).getInmuebles().get(k);
+					String esCasaOApartamento = t.getClass().getName();
+					long precioVenta = 0;
+					String direccion = t.getDireccion();
+					short estrato2 = t.getEstrato();/*estrato2 es el estrato del inmueble, estrato es la especificacion*/
+					int cantidadPiezas = t.cuantasPiezas();
+					int numeroBaños = t.cuantosBaños();
+					
+					if ( esCasaOApartamento=="Casa" && precioVenta<=precioMaximo && direccion==lugar && estrato2==estrato && cantidadPiezas>=cuartosMinimos && numeroBaños>=banosMinimos){
+						Casa casa = (Casa)t; 
+						if (necesitaGaraje && casa.getGaraje()!=null){
+							r = r +"Codigo: "+ casa.getCodigo() +", Direccion: "+ casa.getDireccion()+", Nombre Unidad: "+ casa.getUnidad().getNombre()+ "\n";
 						}else{
 							if( necesitaGaraje==false ){
-								r = r +"Codigo: "+ t.getCodigo() +", Direccion: "+ t.getDireccion()+", Nombre Unidad: "+ t.getNombreUnidad()+ "\n";
+								r = r +"Codigo: "+ t.getCodigo() +", Direccion: "+ t.getDireccion()+", Nombre Unidad: "+ t.getUnidad().getNombre()+ "\n";
 							}
 						}
 					}
@@ -128,23 +139,23 @@ public class Funcionario extends Persona{
 		String r = null;
 		for ( int i=0; i<funcionariosExistentes.size(); i++){
 			for ( int j=0; j<funcionariosExistentes.get(i).clientes.size(); j++ ){
-				for ( int k=0; k<funcionariosExistentes.get(i).clientes.get(j).getInmueblesPoseidos().size(); k++){
-					Inmueble t  = funcionariosExistentes.get(i).clientes.get(j).getInmueblesPoseidos().get(k);
+				for ( int k=0; k<funcionariosExistentes.get(i).clientes.get(j).getInmuebles().size(); k++){
+					Inmueble t  = funcionariosExistentes.get(i).clientes.get(j).getInmuebles().get(k);
 					/*t es Inmueble del cual estoy consultando las carateristicas*/
-					if ( t.getEsCasaOEsApartamento()=="Apartamento" && t.getPrecioDeVenta()<=precioMaximo && t.getDireccion()==lugar && t.getEstrato()==estrato && t.getNumeroDeCuartos()>=cuartosMinimos && t.getNumeroDeBanos()>=banosMinimos){
-						if (necesitaGaraje && t.isGaraje()){
-							r = r +"Codigo: "+ t.getCodigo() +", Direccion: "+ t.getDireccion()+", Nombre Unidad: "+ t.getNombreUnidad()+ "\n";
-						}else{
-							if( necesitaGaraje==false ){
-								r = r +"Codigo: "+ t.getCodigo() +", Direccion: "+ t.getDireccion()+", Nombre Unidad: "+ t.getNombreUnidad()+ "\n";
-							}
-						}
+					String esCasaOApartamento = t.getClass().getName();
+					long precioVenta = 0;
+					String direccion = t.getDireccion();
+					short estrato2 = t.getEstrato();/*estrato2 es el estrato del inmueble, estrato es la especificacion*/
+					int cantidadPiezas = t.cuantasPiezas();
+					int numeroBaños = t.cuantosBaños();
+					if ( esCasaOApartamento=="Apartamento" && precioVenta<=precioMaximo && direccion==lugar && estrato2==estrato && cantidadPiezas>=cuartosMinimos && numeroBaños>=banosMinimos){
+						r = r +"Codigo: "+ t.getCodigo() +", Direccion: "+ t.getDireccion()+", Nombre Unidad: "+ t.getUnidad().getNombre()+ "\n";
 					}
 				}
 			}
 		}
 		if (r==null){
-			return "No hay casas que coincidan con todas las especificaciones dadas";
+			return "No hay apartamentos que coincidan con todas las especificaciones dadas";
 		}else{
 			return r;
 		}
@@ -153,15 +164,16 @@ public class Funcionario extends Persona{
 	public String getInformacionDeInmueble(long codigo){
 		for ( int i=0; i<funcionariosExistentes.size(); i++){
 			for ( int j=0; j<funcionariosExistentes.get(i).clientes.size(); j++ ){
-				for ( int k=0; k<funcionariosExistentes.get(i).clientes.get(j).getInmueblesPoseidos().size(); k++){
-					Inmueble t  = funcionariosExistentes.get(i).clientes.get(j).getInmueblesPoseidos().get(k);
+				for ( int k=0; k<funcionariosExistentes.get(i).clientes.get(j).getInmuebles().size(); k++){
+					Inmueble t  = funcionariosExistentes.get(i).clientes.get(j).getInmuebles().get(k);
 					if (t.getCodigo()==codigo){
-						/*Concatenar toda la informacion del inmueble y la unidad. Definir esto en un metodo de la clase inmueble*/
-						if ( t.getEsCasaOEsApartamento() == "Apartamento" ){
-							/*Concatenar la informacion de la torre del apartamente. Definir esto en un metodo...*/
+						/*Concatenar toda la informacion del inmueble y la unidad*/
+						String esCasaOApto = t.getClass().getName();
+						if ( esCasaOApto == "Apartamento" ){
+							/*Concatenar la informacion de la torre del apartamento*/
 						}else{
-							/*Concatenar informacion de lo cuartos. Definir metodo en clase cuartos...*/
-							/*Concatenar la informacion del garaje. Definir metodo en la clase garaje*/
+							/*Concatenar informacion de lo cuartos.*/
+							/*Concatenar la informacion del garaje.*/
 						}
 					}
 				}
@@ -170,13 +182,15 @@ public class Funcionario extends Persona{
 		return null;
 	}
 
-	public double generarValorDeComisionPorConceptoDeArriendos(String mes, int year){/*Definir luego para que carajos me piden que ingrese estos parametros en el metodo*/ /*Definir como funciona la evolucion de la comision con respecto al tiempo*/
+	// Redefinir el siguiente metodo de acuerdo a la nueva dinamica de informacion de arriendos
+	public double generarValorDeComisionPorConceptoDeArriendos(String mes, int year){//Definir como funciona la evolucion de la comision con respecto al tiempo
 		double acumulador = 0;
 		for (int i=0; i<clientes.size(); i++){
-			for (int j=0; j<clientes.get(i).getInmueblesPoseidos().size(); j++){
-				Inmueble inmueble = clientes.get(i).getInmueblesPoseidos().get(j);
+			for (int j=0; j<clientes.get(i).getInmuebles().size(); j++){
+				Inmueble inmueble = clientes.get(i).getInmuebles().get(j);
+				long valorArriendo = 0; //Este atributo sera asignado cuando se tengan las clases Contrato 
 				if ( inmueble.estaArrendado() ){
-					acumulador = acumulador + (inmueble.getValorArriendo()*0.01);
+					acumulador = acumulador + (valorArriendo*0.01);
 				}
 			}
 		}
