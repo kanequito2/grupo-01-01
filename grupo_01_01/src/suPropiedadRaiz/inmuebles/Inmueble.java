@@ -11,6 +11,8 @@ public abstract class Inmueble {
 	private float areaTerraza;
 	
 	private ArrayList<Cuarto> cuartos = new ArrayList<Cuarto>();
+	private int baños = 0;
+	private int piezas = 0;
 	
 	private final Unidad unidad;
 	
@@ -77,6 +79,20 @@ public abstract class Inmueble {
 	
 	public void addCuarto(Cuarto cuarto){
 		this.cuartos.add(cuarto);
+		if(cuarto.getUso().compareTo("Baño") == 0){
+			this.baños++;
+		}
+		else {
+			this.piezas++;
+		}
+	}
+	
+	public int cuantosBaños(){
+		return this.baños;
+	}
+	
+	public int cuantasPiezas(){
+		return this.piezas;
 	}
 	
 	public String getDireccion(){

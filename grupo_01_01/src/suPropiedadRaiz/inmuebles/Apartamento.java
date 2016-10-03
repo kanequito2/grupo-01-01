@@ -1,6 +1,6 @@
 package suPropiedadRaiz.inmuebles;
 
-public class Apartamento extends Inmueble {
+abstract public class Apartamento extends Inmueble {
 	
 	private final Torre torre;
 	

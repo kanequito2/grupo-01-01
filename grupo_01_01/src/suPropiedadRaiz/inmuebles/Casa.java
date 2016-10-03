@@ -1,6 +1,6 @@
 package suPropiedadRaiz.inmuebles;
 
-public class Casa extends Inmueble {
+abstract public class Casa extends Inmueble {
 	
 	private Garaje garaje;
 	private short pisos;
