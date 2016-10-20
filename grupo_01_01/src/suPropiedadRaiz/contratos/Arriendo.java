@@ -7,8 +7,8 @@ public class Arriendo extends Contrato {
 	private Persona arrendatario;
 	private Persona dueño;
 	
-	public Arriendo(long codigo, float tarifa, Inmueble inmueble,Persona funcionario, Persona arrendatario, Persona dueño){
-		super(codigo, tarifa, inmueble, funcionario);
+	public Arriendo(long codigo, float tarifa, Inmueble inmueble,Funcionario funcionario, Demandador arrendatario, Oferente dueño, int año, int mes){
+		super(codigo, tarifa, inmueble, funcionario, arrendatario, dueño, año, mes);
 		this.arrendatario = arrendatario;
 		this.dueño = dueño;
 	}

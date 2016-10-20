@@ -6,9 +6,8 @@ public class ApartamentoArriendo extends Apartamento{
 	
 	private Arriendo contrato;
 	
-	public ApartamentoArriendo(long codigo, float area, Unidad unidad, Torre torre, Arriendo contrato){
+	public ApartamentoArriendo(long codigo, float area, Unidad unidad, Torre torre){
 		super(codigo, area, unidad, torre);
-		this.contrato = contrato;
 	}
 	
 	public Persona getArrendatario(){
@@ -19,16 +18,16 @@ public class ApartamentoArriendo extends Apartamento{
 		return this.contrato.getDueño();
 	}
 	
-	public Arriendo getContrato(){
-		return this.contrato;
-	}
-	
 	public void setDueño(Persona dueño){
 		this.contrato.setDueño(dueño);
 	}
 	
 	public void setArrendatario(Persona arrendatario){
 		this.contrato.setArrendatario(arrendatario);
+	}
+	
+	public Contrato getContrato(){
+		return this.contrato;
 	}
 	
 	public void setContrato(Arriendo contrato){

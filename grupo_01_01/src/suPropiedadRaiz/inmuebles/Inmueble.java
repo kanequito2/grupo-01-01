@@ -1,5 +1,6 @@
 package suPropiedadRaiz.inmuebles;
 import java.util.ArrayList;
+import suPropiedadRaiz.contratos.*;
 
 public abstract class Inmueble {
 
@@ -15,6 +16,9 @@ public abstract class Inmueble {
 	private int piezas = 0;
 	
 	private final Unidad unidad;
+	
+	//Revisar esta wevada
+	private String estado;
 	
 	public Inmueble(long codigo, float area, Unidad unidad){
 		this.codigo = codigo;
@@ -87,6 +91,10 @@ public abstract class Inmueble {
 		}
 	}
 	
+	public ArrayList<Cuarto> getCuartos(){
+		return this.cuartos;
+	}
+	
 	public int cuantosBaños(){
 		return this.baños;
 	}
@@ -107,6 +115,15 @@ public abstract class Inmueble {
 		return this.unidad;
 	}
 
+	public String getEstado(){
+		return this.estado;
+	}
 	
+	public abstract float getTarifa();
+	public abstract Contrato getContrato();
+	
+	public void setEstado(String estado){
+		this.estado = estado;
+	}
 	
 }

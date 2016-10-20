@@ -6,9 +6,8 @@ public class CasaVenta extends Casa{
 	
 	private CompraVenta contrato;
 	
-	public CasaVenta(long codigo, float area, Unidad unidad, short pisos, CompraVenta contrato){
+	public CasaVenta(long codigo, float area, Unidad unidad, short pisos){
 		super(codigo, area, unidad, pisos);
-		this.contrato = contrato;
 	}
 	
 	public Persona getVendedor(){
@@ -16,22 +15,14 @@ public class CasaVenta extends Casa{
 	}
 	
 	public Persona getComprador(){
-		return this.contrato.getVendedor();
+		return this.contrato.getComprador();
 	}
 	
 	public float getTarifa(){
 		return this.contrato.getTarifa();
 	}
 	
-	public void setVendedor(Persona vendedor){
-		this.contrato.setVendedor(vendedor);
-	}
-	
-	public void setComprador(Persona comprador){
-		this.contrato.setComprador(comprador);
-	}
-	
-	public CompraVenta getContrato(){
+	public Contrato getContrato(){
 		return this.contrato;
 	}
 	
