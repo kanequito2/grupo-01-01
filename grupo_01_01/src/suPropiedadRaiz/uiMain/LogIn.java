@@ -17,7 +17,7 @@ public class LogIn extends OpcionDeMenu {
 		System.out.println("Ingrese su número de cédula.");
 		Scanner input = new Scanner(System.in);
 		long cedula = input.nextLong();
-		Persona usuario = new UsuarioInvitado();
+		Persona usuario = null;
 		for (int i = 0; i < UsuariosRegistrados.getUsuariosRegistrados().size(); i++){
 			if(UsuariosRegistrados.getUsuariosRegistrados().get(i).getCedula() == cedula){
 				usuario = UsuariosRegistrados.getUsuariosRegistrados().get(i);
@@ -32,7 +32,10 @@ public class LogIn extends OpcionDeMenu {
 					break;
 				}
 			}
-		}		
+		}
+		else{
+			
+		}
 	}
 	
 }

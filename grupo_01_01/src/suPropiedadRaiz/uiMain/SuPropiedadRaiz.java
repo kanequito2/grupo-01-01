@@ -16,7 +16,7 @@ public class SuPropiedadRaiz {
 		 * PENDIENTE!!!!!
 		*/
 			UsuariosRegistrados.addUsuario(new AdministradorDelSistema(100000, "Administrador Gonzales"));
-			new Funcionario(100001, "Funcionario Jefe Ramirez");			
+			new FuncionarioJefe(100001, "Funcionario Jefe Ramirez");			
 		}
 		
 		

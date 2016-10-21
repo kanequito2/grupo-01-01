@@ -1,5 +1,6 @@
 package suPropiedadRaiz.uiMain;
 
+
 public abstract class OpcionDeMenu {
 	
 	private String nombre;

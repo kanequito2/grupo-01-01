@@ -20,21 +20,27 @@ public class PedirCitaInivitado extends OpcionDeMenu {
 		System.out.println("Ingrese su cedula.");
 		long cedula = input.nextLong();
 		System.out.println("Cual es el motivo de su cita?");
-		System.out.println("1. Arriendo");
-		System.out.println("2. Compra");
-		System.out.println("3. Venta.");
+		System.out.println("1. Dar en arriendo.");
+		System.out.println("2. Arrendar.");
+		System.out.println("3. Compra.");
+		System.out.println("4. Vender.");
 		int comando = input.nextInt();
 		String motivo;
-		if(comando == 0){
-			motivo = "Arriendo";
-		}
 		if(comando == 1){
+			motivo = "DarArriendo";
+		}
+		if (comando == 2){
+			motivo = "Arrendar";
+		}
+		if (comando == 3){
 			motivo = "Compra";
 		}
 		else{
 			motivo = "Venta";
 		}
-		Funcionario.pedirCita(cedula, nombre, motivo, "Aleatorio");
+		System.out.println(Funcionario.pedirCita(cedula, nombre, motivo, "Aleatorio"));
+		
+			
 		
 		System.out.println("Presione cualquier tecla para salir");
 		motivo = input.next();

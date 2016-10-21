@@ -1,6 +1,8 @@
 package suPropiedadRaiz.inmuebles;
 import java.util.ArrayList;
 
+import suPropiedadRaiz.empresa.ListaTorres;
+
 public class Torre {
 
 	private final long codigo;
@@ -16,6 +18,7 @@ public class Torre {
 		}
 		this.ascensor = ascensor;
 		this.unidad.addTorre(this);
+		ListaTorres.addTorre(this);
 	}
 	
 	public long getCodigo(){

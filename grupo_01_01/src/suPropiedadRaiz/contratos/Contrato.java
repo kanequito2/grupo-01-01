@@ -4,6 +4,7 @@ import suPropiedadRaiz.inmuebles.*;
 
 public abstract class Contrato {
 	
+	public static long codigoContratos = 1000;
 	private long codigo;
 	private float tarifa;
 	private Persona funcionario;
@@ -72,4 +73,5 @@ public abstract class Contrato {
 		return retorno;
 	}
 
+	
 }

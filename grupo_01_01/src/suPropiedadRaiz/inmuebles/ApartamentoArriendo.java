@@ -14,18 +14,11 @@ public class ApartamentoArriendo extends Apartamento{
 		return this.contrato.getArrendatario();
 	}
 	
-	public Persona getDueño(){
-		return this.contrato.getDueño();
+	public Persona getArrendador(){
+		return this.contrato.getArrendador();
 	}
 	
-	public void setDueño(Persona dueño){
-		this.contrato.setDueño(dueño);
-	}
-	
-	public void setArrendatario(Persona arrendatario){
-		this.contrato.setArrendatario(arrendatario);
-	}
-	
+
 	public Contrato getContrato(){
 		return this.contrato;
 	}

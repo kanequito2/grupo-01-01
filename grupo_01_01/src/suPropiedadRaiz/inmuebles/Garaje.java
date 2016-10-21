@@ -2,6 +2,7 @@ package suPropiedadRaiz.inmuebles;
 
 public class Garaje {
 	
+	public static long codigoGarajes = 1;
 	private final long codigo;
 	private boolean puertaElectrica;
 	private float altura;

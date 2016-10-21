@@ -10,6 +10,9 @@ public class CasaVenta extends Casa{
 		super(codigo, area, unidad, pisos);
 	}
 	
+	public CasaVenta(long codigo, float area, Unidad unidad, short pisos, Garaje garaje){
+		super(codigo, area, unidad, pisos, garaje);
+	}
 	public Persona getVendedor(){
 		return this.contrato.getVendedor();
 	}

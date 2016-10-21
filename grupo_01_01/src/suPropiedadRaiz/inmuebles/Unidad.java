@@ -1,6 +1,8 @@
 package suPropiedadRaiz.inmuebles;
 import java.util.ArrayList;
 
+import suPropiedadRaiz.empresa.ListaUnidades;
+
 public class Unidad {
 
 	private final long codigo;
@@ -18,6 +20,7 @@ public class Unidad {
 		this.estrato = e;
 		this.nombre = n;
 		this.cerrada = a;
+		ListaUnidades.addUnidad(this);
 	}
 
 

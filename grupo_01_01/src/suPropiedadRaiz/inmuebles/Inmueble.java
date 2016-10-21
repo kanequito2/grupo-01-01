@@ -6,7 +6,7 @@ public abstract class Inmueble {
 
 	private final long codigo;
 	private float areaTotal;
-	
+	private static long codigosInmuebles = 10000;
 	private boolean parqueoComunal;
 	private float areaBalcon;
 	private float areaTerraza;
@@ -17,13 +17,18 @@ public abstract class Inmueble {
 	
 	private final Unidad unidad;
 	
-	//Revisar esta wevada
 	private String estado;
 	
 	public Inmueble(long codigo, float area, Unidad unidad){
 		this.codigo = codigo;
 		this.areaTotal = area;
 		this.unidad = unidad;
+	}
+	
+	public static long getCodigosInmuebles(){
+		long c = codigosInmuebles;
+		codigosInmuebles++;
+		return c;
 	}
 	
 	public long getCodigo(){
@@ -89,6 +94,10 @@ public abstract class Inmueble {
 		else {
 			this.piezas++;
 		}
+	}
+	
+	public void addCuartos(ArrayList<Cuarto> cuartos){
+		this.cuartos.addAll(cuartos);
 	}
 	
 	public ArrayList<Cuarto> getCuartos(){

@@ -27,6 +27,12 @@ public class MenuDeConsola {
 	public void eliminarOpcion (int i){
 		this.opciones.remove(i);
 	}
+	
+	public void mostrarOpciones(){
+		for(int i = 0; i < this.opciones.size(); i++){
+			System.out.println(i + ": " + this.opciones.get(i).getNombre());
+		}
+	}
 
 	public void desplegarOpciones(){
 		this.agregarOpcion(new Salida());

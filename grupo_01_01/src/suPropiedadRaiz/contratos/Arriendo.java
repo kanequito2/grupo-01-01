@@ -1,32 +1,31 @@
 package suPropiedadRaiz.contratos;
 import suPropiedadRaiz.usuarios.*;
+import suPropiedadRaiz.empresa.ListaContratos;
 import suPropiedadRaiz.inmuebles.*;
 
 public class Arriendo extends Contrato {
 	
-	private Persona arrendatario;
-	private Persona dueño;
+	private Arrendador arrendador;
+	private Arrendatario arrendatario;
 	
-	public Arriendo(long codigo, float tarifa, Inmueble inmueble,Funcionario funcionario, Demandador arrendatario, Oferente dueño, int año, int mes){
-		super(codigo, tarifa, inmueble, funcionario, arrendatario, dueño, año, mes);
+	public Arriendo(long codigo, float tarifa, Inmueble inmueble,Funcionario funcionario, Arrendatario arrendatario, Arrendador arrendador, int año, int mes){
+		super(codigo, tarifa, inmueble, funcionario, arrendatario, arrendador, año, mes);
 		this.arrendatario = arrendatario;
-		this.dueño = dueño;
+		this.arrendador = arrendador;
+		ListaContratos.addArriendo(this);
+		arrendatario.getArriendo().add(this);
+		arrendador.getArriendo().add(this);
 	}
 	
-	public Persona getArrendatario(){
+	public Arrendatario getArrendatario(){
 		return this.arrendatario;
 	}
+
 	
-	public void setArrendatario(Persona arrendatario){
-		this.arrendatario = arrendatario;
+	public Arrendador getArrendador(){
+		return this.arrendador;
 	}
 	
-	public Persona getDueño(){
-		return this.dueño;
-	}
-	
-	public void setDueño(Persona dueño){
-		this.dueño = dueño;
-	}
+
 
 }
