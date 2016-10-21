@@ -10,10 +10,10 @@ public class FuncionarioJefe extends Funcionario{
 		super(cedula,nombre);
 	}
 	
-	public String getFuncionariosAMiCargo(){
+	public String getFuncionariosAMiCargo(int mes, int año){
 		String r="";
 		for (int i=0; i<funcionariosAMiCargo.size(); i++){
-			r = r + "Cedula: "+ funcionariosAMiCargo.get(i).getCedula() +", Nombre: "+ funcionariosAMiCargo.get(i).getNombre() + ", Sueldo: "+ funcionariosAMiCargo.get(i).generarSueldoNeto("")+"\n";
+			r = r + "Cedula: "+ funcionariosAMiCargo.get(i).getCedula() +", Nombre: "+ funcionariosAMiCargo.get(i).getNombre() + ", Sueldo: "+ funcionariosAMiCargo.get(i).generarSueldoNeto(mes)+"\n";
 		}
 		return r;
 	}

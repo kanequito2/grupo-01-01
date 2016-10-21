@@ -10,7 +10,7 @@ public class Funcionario extends Persona{
 	private ArrayList <Cliente> clientes = new ArrayList <Cliente>();
 	private Object[][] citas = new Object[16][3];
 	private double sueldo;
-	private long codigoContrato = 0;
+	private static long codigoContrato = 0;
 	
 	//Constructor
 	public Funcionario (long cedula, String nombre){
@@ -18,7 +18,7 @@ public class Funcionario extends Persona{
 		ListaFuncionarios.addFuncionario(this);
 	}
 		
-	public static String pedirCita(long cedula, String nombre, String motivoDeLaCita, String AleatorioOAnterior){
+	public static String pedirCita(long cedula, String nombre, String motivo, String AleatorioOAnterior){
 		Funcionario funcionario;
 		if ( AleatorioOAnterior == "Anterior" ){
 			funcionario = buscarElFuncionarioACargoDelCliente(cedula);
@@ -26,7 +26,19 @@ public class Funcionario extends Persona{
 		else{
 			funcionario = funcionarioAleatorio();
 		}
-		String r = funcionario.asignarCita(cedula, nombre, motivoDeLaCita);
+		String r = funcionario.asignarCita(cedula, nombre, motivo);
+		if(motivo == "DarArriendo"){
+			funcionario.registrarClienteYAsignarRol(cedula, nombre, "Arrendador");
+		}
+		if(motivo == "Arrendar"){
+			funcionario.registrarClienteYAsignarRol(cedula, nombre, "Arrendatario");
+		}
+		if (motivo == "Compra"){
+			funcionario.registrarClienteYAsignarRol(cedula, nombre, "Comprador");
+		}
+		else{
+			funcionario.registrarClienteYAsignarRol(cedula, nombre, "Vendedor");
+		}
 		return r;
 	}
 	
@@ -95,52 +107,60 @@ public class Funcionario extends Persona{
 			}
 		}
 		ListaClientes.addCliente(cliente);
+		this.clientes.add(cliente);
 		return cliente;
 	}
 	
-	//En los siguientes dos métodos No meter Clientes que no sean Oferentes. Meter contratos acordes a lo que voy a crear.
-	//Preguntar a Mirai para qué incluir el contrato en el constructor de Un inmueble, me parece que no debería estar en el constructor y debería haber un Set/Get contrato
-	public void registrarCasa(Oferente propietario, String ventaOArriendo, long codigo, float area, Unidad unidad, short pisos, Contrato contrato)
+	public void registrarCasa(Oferente propietario, String ventaOArriendo, long codigo, float area, Unidad unidad, short pisos)
 	{
 		Inmueble casa = null;
 		if ( ventaOArriendo == "Venta"){
-			casa = new CasaVenta(codigo,area,unidad,pisos,(CompraVenta)contrato);
+			casa = new CasaVenta(codigo,area,unidad,pisos);
 		}else{
-			if ( ventaOArriendo == "Arriendo"){
-				casa = new CasaArriendo(codigo, area, unidad, pisos,(Arriendo)contrato);
-			}
+			casa = new CasaArriendo(codigo, area, unidad, pisos);
 		}
 		propietario.addInmueble(casa);
 	}
 	
-	public void registrarApartamento(Oferente propietario, String ventaOArriendo, long codigo, float area, Unidad unidad, Torre torre, Contrato contrato){
+	public void registrarApartamento(Oferente propietario, long codigo, float area, Unidad unidad, Torre torre, String VentaOArriendo){
 		Inmueble apartamento = null;
-		if ( ventaOArriendo == "Venta"){
-			apartamento = new ApartamentoVenta(codigo,area,unidad,torre,(CompraVenta)contrato);
+		if (VentaOArriendo == "Venta"){
+			apartamento = new ApartamentoVenta(codigo,area,unidad,torre);
 		}else{
-			if ( ventaOArriendo == "Arriendo"){
-				apartamento = new ApartamentoArriendo(codigo, area, unidad, torre,(Arriendo)contrato);
+				apartamento = new ApartamentoArriendo(codigo, area, unidad, torre);
 			}
-		}
 		propietario.addInmueble(apartamento);
-	}
+}
 	
-	public void registrarCompraVenta(Inmueble inmueble, Oferente vendedor, Demandador comprador, int año, String mes){
+	public void registrarCompraVenta(Inmueble inmueble, Oferente vendedor, Demandador comprador, int año, int mes){
 		comprador.addInmueble(inmueble);
 		inmueble.setEstado("Vendido");
 		float tarifa = inmueble.getTarifa();
 		codigoContrato++;
 		CompraVenta contrato = new CompraVenta(codigoContrato,tarifa,inmueble,this,comprador,vendedor,año,mes);
 		ListaContratos.addCompraVenta(contrato);
+		if (inmueble instanceof CasaVenta){
+			((CasaVenta)inmueble).setContrato(contrato);
+		}
+		else{
+			((ApartamentoVenta)inmueble).setContrato(contrato);
+		}
+		vendedor.removeInmueble(inmueble);
 	}
 	
-	public void registrarArrendamiento(Inmueble inmueble, Oferente arrendador, Demandador arrendatario, int año, String mes){
+	public void registrarArrendamiento(Inmueble inmueble, Arrendatario arrendatario, Arrendador arrendador, int año, int mes){
 		arrendatario.addInmueble(inmueble);
 		inmueble.setEstado("Arrendado");
 		float tarifa = inmueble.getTarifa();
 		codigoContrato++;
 		Arriendo contrato = new Arriendo(codigoContrato,tarifa,inmueble,this,arrendatario,arrendador,año,mes);
-		ListaContratos.addArriendo(contrato);	
+		ListaContratos.addArriendo(contrato);
+		if (inmueble instanceof CasaArriendo){
+			((CasaArriendo) inmueble).setContrato(contrato);
+		}
+		else{
+			((ApartamentoArriendo)inmueble).setContrato(contrato);
+		}
 	}
 	
 	public String buscarCasas(float precioMaximo, String lugar, short estratoDeInteres,/*Preferencias*/int cuartosMinimos, int banosMinimos, double areaMinima, boolean necesitaGaraje){
@@ -315,17 +335,17 @@ public class Funcionario extends Persona{
 		return casa;
 	}
 	
-	//Definir para los dos siguientes metodos como funciona la evolucion de la comision con respecto al tiempo. 
-	public double generarValorDeComisionPorConceptoDeArriendos(String mes, int año){//Definir como guardar la fecha en la que se hizo un arrendamiento en los contratos/inmuebles
+
+	public double generarValorDeComisionPorConceptoDeArriendos(int mes, int año){
 		double acumulador = 0;
 		for (int i=0; i<clientes.size(); i++){
 			if (clientes.get(i) instanceof Arrendador){
 				Arrendador arrendador = (Arrendador) clientes.get(i);
 				for (int j=0; j<arrendador.getInmuebles().size(); j++){
 				Inmueble inmueble = arrendador.getInmuebles().get(j);
-					if ( inmueble.getEstado() == "Arrendado" && inmueble.getContrato().getAño()==año && inmueble.getContrato().getMes()==mes){
+					if ( inmueble.getEstado() == "Arrendado"){
 						float valorArriendo = ((Inmueble)inmueble).getTarifa();
-						acumulador = acumulador + (valorArriendo*0.01);
+						acumulador = acumulador + (valorArriendo*0.01)*((año - inmueble.getContrato().getAño()) + (mes - inmueble.getContrato().getMes()));
 					}
 				}
 			}
@@ -333,16 +353,16 @@ public class Funcionario extends Persona{
 		return acumulador;
 	}
 	
-	public double generarValorDeComisionPorVentaDeViviendas(String mes, int año){
+	public double generarValorDeComisionPorVentaDeViviendas(int mes, int año){
 		double acumulador = 0;
 		for (int i=0; i<clientes.size(); i++){
 			if (clientes.get(i) instanceof Vendedor){
 				Vendedor vendedor = (Vendedor) clientes.get(i);
 				for (int j=0; j<vendedor.getInmuebles().size(); j++){
 					Inmueble inmueble = vendedor.getInmuebles().get(j);
-					if ( inmueble.getEstado() == "Vendido" && inmueble.getContrato().getAño()==año && inmueble.getContrato().getMes()==mes){
+					if ( inmueble.getEstado() == "Vendido" && inmueble.getContrato().getAño()<=año){
 						float valorVenta = inmueble.getTarifa();
-						acumulador = acumulador + (valorVenta*0.01);
+						acumulador = acumulador + (valorVenta*0.05);
 					}
 				}
 			}
@@ -350,7 +370,7 @@ public class Funcionario extends Persona{
 		return acumulador;
 	}
 	
-	public double generarSueldoNeto(String mes){
+	public double generarSueldoNeto(int mes){
 		return this.sueldo + this.generarValorDeComisionPorConceptoDeArriendos(mes, 2016) + this.generarValorDeComisionPorVentaDeViviendas(mes,2016);
 	}
 	

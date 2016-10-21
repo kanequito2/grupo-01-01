@@ -1,4 +1,5 @@
 package suPropiedadRaiz.usuarios;
+import suPropiedadRaiz.empresa.ListaVendedores;
 import suPropiedadRaiz.inmuebles.Inmueble;
 import java.util.ArrayList;
 
@@ -6,8 +7,9 @@ public class Vendedor extends Oferente {
 	
 	Vendedor(long cedula, String nombre){
 		super(cedula, nombre);
+		ListaVendedores.addVendedor(this);
 	}	
-	//Falta la fecha
+
 	public String getCasasParaVender(){
 		String r = "";
 		ArrayList<Inmueble> vendidos = new ArrayList<Inmueble>();
@@ -21,7 +23,7 @@ public class Vendedor extends Oferente {
 			String esCasaOApto = inmueble.getClass().getName();
 			r = r+"Codigo: "+codigo+", Direccion: "+direccion+", Es: "+esCasaOApto;
 			if( vendidos.contains(inmueble) ){
-				String fechaVenta = null; // Definir cuando sepamos manipular fechas
+				String fechaVenta = inmueble.getContrato().getMes() + "/"+ inmueble.getContrato().getAño(); 
 				double valorVenta = super.getCompraVenta().get(i).getTarifa(); 
 				r = r+", fecha de venta: "+fechaVenta+", valor de venta: "+ valorVenta+"\n";
 			}else{

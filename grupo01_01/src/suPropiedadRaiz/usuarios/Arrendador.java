@@ -1,6 +1,7 @@
 package suPropiedadRaiz.usuarios;
 
 import suPropiedadRaiz.contratos.Arriendo;
+import suPropiedadRaiz.empresa.ListaArrendadores;
 import suPropiedadRaiz.inmuebles.Inmueble;
 import java.util.ArrayList;
 
@@ -9,8 +10,9 @@ public class Arrendador extends Oferente{
 	//Constructor
 	Arrendador(long cedula, String nombre){
 		super(cedula,nombre);
+		ListaArrendadores.addArrendador(this);
 	}
-//En los siguientes metodos no se define fecha, porque no estamos seguros de como trabajar con la fecha
+	
 	public String getInmueblesPorLosQueMePaganArriendo(){
 		String r = "";
 		for (int i=0; i<super.getArriendo().size(); i++){
@@ -20,7 +22,7 @@ public class Arrendador extends Oferente{
 			String direccion = inmueble.getDireccion();
 			double valorArriendo = contrato.getTarifa();
 			String esCasaOApto = inmueble.getClass().getName();
-			String fechaInicioContrato = null; //Definir este atributo cuando este lista la fecha
+			String fechaInicioContrato = contrato.getMes() + "/" + contrato.getAño(); 
 			r = r+"Codigo: "+codigo+", Direccion: "+direccion+", Valor de Arriendo: "+valorArriendo+", Es: "+esCasaOApto+", Fecha de inicio de contrato: "+fechaInicioContrato+"\n";
 			
 		}

@@ -23,5 +23,14 @@ public abstract class ListaClientes extends UsuariosRegistrados {
 		}
 		return false;
 	}
+	
+	public static Cliente getCliente(long cedula){
+		for(int i=0; i < clientesRegistrados.size(); i++){
+			if(clientesRegistrados.get(i).getCedula() == cedula){
+				return clientesRegistrados.get(i);
+			}
+		}
+		return null;
+	}
 
 }

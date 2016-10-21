@@ -3,12 +3,13 @@ package suPropiedadRaiz.usuarios;
 import java.util.ArrayList;
 import suPropiedadRaiz.inmuebles.*;
 import suPropiedadRaiz.contratos.*;
+import suPropiedadRaiz.empresa.ListaClientes;
 
 public abstract class Cliente extends Persona{
 	
 	public Cliente (long cedula, String nombre){
 		super(cedula,nombre);
-		// clientesRegistrados.add(this); //EseArrayList atenta contra la POO :(   
+		ListaClientes.addCliente(this);  
 	}
 	
 	private ArrayList <Inmueble> inmueblesPoseidos = new ArrayList <Inmueble>();
@@ -21,6 +22,10 @@ public abstract class Cliente extends Persona{
 	
 	public void addInmueble(Inmueble inmueble){
 		inmueblesPoseidos.add(inmueble);
+	}
+	
+	public void removeInmueble(Inmueble inmueble){
+		inmueblesPoseidos.remove(inmueble);
 	}
 	
 	public ArrayList <CompraVenta> getCompraVenta(){

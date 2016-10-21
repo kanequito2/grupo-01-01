@@ -22,9 +22,9 @@ public class UsuarioInvitado extends Persona{
 		return r;
 	}
 	
-	public void login(long cedula, String nombre)//Este metodo solo encuentra el usuario que se ha logueado. No hace nada de menu todavia
+	public void login(long cedula)//Este metodo solo encuentra el usuario que se ha logueado. No hace nada de menu todavia
 	{
-		UsuariosRegistrados.getUsuario(cedula, nombre);
+		UsuariosRegistrados.getUsuario(cedula);
 	}
 	
 }

@@ -15,13 +15,11 @@ public abstract class UsuariosRegistrados {
 		return usuariosRegistrados;
 	}
 	
-	public static Persona getUsuario(long cedula, String nombre){
+	public static Persona getUsuario(long cedula){
 		Persona persona = null;
-		for( int i=0; i < usuariosRegistrados.size(); i++ ){
-			if ( usuariosRegistrados.get(i).getNombre() == nombre ){
-				if ( usuariosRegistrados.get(i).getCedula() == cedula ){
-					persona = usuariosRegistrados.get(i);
-				}
+		for(int i = 0; i < getUsuariosRegistrados().size(); i++){
+			if(getUsuariosRegistrados().get(i).getCedula() == cedula){
+				persona = getUsuariosRegistrados().get(i);
 			}
 		}
 		return persona;

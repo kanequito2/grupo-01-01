@@ -16,4 +16,14 @@ public abstract class ListaFuncionarios extends UsuariosRegistrados{
 		return funcionariosRegistrados;
 	}
 	
+	public static Funcionario getFuncionario(long cedula){
+		Funcionario  funcionario = null;
+		for (int i = 0; i < funcionariosRegistrados.size(); i++){
+			if(funcionariosRegistrados.get(i).getCedula() == cedula){
+				funcionario = funcionariosRegistrados.get(i);
+			}
+		}
+		return funcionario;
+	}
+	
 }
